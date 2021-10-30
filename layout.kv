@@ -1,0 +1,230 @@
+#: import utils kivy.utils
+#: import Snackbar kivymd.uix.snackbar.Snackbar
+ScreenManager:
+    Landing:
+    Inputs:
+    Devices:
+
+<Landing>:
+    name: 'land'
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'assets/bluish.png'
+
+    MDBoxLayout:
+        orientation:'vertical'
+        MDBoxLayout:
+            size_hint_y:.25
+            padding:dp(25)
+            MDBoxLayout:
+                orientation:"vertical"
+                MDLabel:
+                    text:"Cogvision"
+                    font_style:"H4"
+                Widget:
+                    size_hint: None,None
+                    height: dp(20)
+
+            MDIconButton:
+                icon:"bell-ring"
+                theme_text_color: "Custom"
+                text_color: 1,1,1,.5
+                on_release: Snackbar(text="No Notifications!").open()
+
+        MDGridLayout:
+            size_hint_y:.75
+            cols:2
+            padding:[dp(15),dp(15),dp(15),dp(35)]
+            spacing:dp(15)
+            ElementCard:
+                image:"assets/search.png"
+                text:"Scan"
+                subtext:"Show devices nearby"
+                on_release: app.root.current = 'device'
+            ElementCard:
+                image:"assets/bluetooth.png"
+                text:"Manual"
+                subtext:"Pass details to connect"
+                on_release: app.root.current = 'data'
+
+            ElementCard:
+                image:"assets/settings.png"
+                text:"Testing"
+                subtext:"Check the tiles on this page"
+                on_release: Snackbar(text="You don't have permission!").open()
+
+            ElementCard:
+                image:"assets/smartphone.png"
+                text:"Bt-Script"
+                subtext:"Run the bluetooth Script"
+                on_release: Snackbar(text="You don't have permission!").open()
+
+<ElementCard@MDCard>:
+    md_bg_color: 0,0,0,.2
+    padding:dp(15)
+    spacing:dp(15)
+    elevation: 0
+    image:''
+    radius:15
+    ripple_behavior: True
+    text:""
+    subtext:''
+    run:
+
+    orientation:'vertical'
+    Image:
+        pos_hint: {'center_x':0.5, 'center_y': 0.5}
+        source:root.image
+    MDBoxLayout:
+        orientation:'vertical'
+        MDLabel:
+            halign:"center"
+            text:root.text
+            font_style:"H6"
+        MDLabel:
+            halign:"center"
+            font_style:"Caption"
+            text:root.subtext
+
+
+
+<Devices>:
+    name: 'device'
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: 4
+        MDToolbar:
+            title: 'Bluetooth Scanner'
+            elevation: 10
+            left_action_items: [["arrow-left", lambda x: x ]]
+            right_action_items: [["pencil", lambda x: x]]
+
+        MDFillRoundFlatIconButton:
+            icon: 'magnify'
+            text: 'Search Devices Nearby'
+#            size_hint_x: .8
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            on_release: app.bluetooth()
+        MDFillRoundFlatIconButton:
+            icon: 'account'
+            text: 'Btscanserver_v2'
+#            size_hint_x: .8
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            on_release: app.runner()
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            MDList:
+                id: bt_lst
+
+<Inputs>:
+    name: 'data'
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'assets/bluish.png'
+    MDBoxLayout:
+        orientation: 'vertical'
+        MDBoxLayout:
+            size_hint_y:.25
+            padding:dp(25)
+            MDBoxLayout:
+                orientation:"vertical"
+                MDIconButton:
+                    icon: 'keyboard-backspace'
+                    on_release:
+                        app.root.current = 'land'
+#                        app.root.manager.transiton.direction = 'left'
+                MDCard:
+                    orientation: 'vertical'
+                    md_bg_color: 0,0,0,.3
+                    padding:dp(15)
+                    spacing:dp(15)
+                    radius: 12
+                    ScrollView:
+                        do_scroll_x: False
+                        do_scroll_y: True
+                        bar_inactive_color:
+                        MDGridLayout:
+                            cols: 1
+                            size_hint_y: None
+                            size_hint_x: 1
+                            height: self.minimum_height
+                            # user
+                            MDTextField:
+                                id: user
+                                hint_text: "User"
+                                helper_text: "This field is required"
+                                helper_text_mode: "on_error"
+                            # ip
+                            MDTextField:
+                                id: ip
+                                hint_text: "IP"
+                                helper_text: "This field is required"
+                                helper_text_mode: "on_error"
+                            # port
+                            MDTextField:
+                                id: port
+                                hint_text: "Port"
+                                helper_text: "This field is required"
+                                helper_text_mode: "on_error"
+                            # netmask
+                            MDTextField:
+                                id: netmask
+                                hint_text: "Netmask"
+                                helper_text: "This field is required"
+                                helper_text_mode: "on_error"
+                            # interface
+                            MDTextField:
+                                id: interface
+                                hint_text: "Interface"
+                                helper_text: "This field is required"
+                                helper_text_mode: "on_error"
+                            # syspassword
+                            MDTextField:
+                                id: syspassword
+                                hint_text: "SysPassword"
+                                helper_text: "This field is required"
+                                helper_text_mode: "on_error"
+                                password: True
+                            # management_server_ip
+                            MDTextField:
+                                id: management_server_ip
+                                hint_text: "Management Server IP"
+                                helper_text: "This field is required"
+                                helper_text_mode: "on_error"
+                            # gateway
+                            MDTextField:
+                                id: gateway
+                                hint_text: "Gateway"
+                                helper_text: "This field is required"
+                                helper_text_mode: "on_error"
+                            # Mac_id
+                            MDTextField:
+                                id: Mac_id
+                                hint_text: "Mac ID"
+                                helper_text: "This field is required"
+                                helper_text_mode: "on_error"
+                            # status: false
+                            MDTextField:
+                                id: status
+                                hint_text: "Status"
+                                helper_text: "This field should be set to 'False'"
+                                helper_text_mode: "on_error"
+
+                            MDRaisedButton:
+                                text: "Submit"
+                                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                                padding_y: 80
+                                on_release: app.runner()
+#    FloatLayout:
+#        padding: dp(20)
+#        spacing: dp(50)
+#        halign: 'right'
+#        MDFloatingActionButton:
+#            icon: 'refresh'
+#            elevation_normal: 12
